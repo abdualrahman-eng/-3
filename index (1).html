@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>المراجعة الذكية</title>
+<style>
+:root{--bg:#f6f5fb;--card:#fff;--ink:#1d1a2f;--mute:#6d6a85;--line:#e7e4f2;--p:#6d49d3;--p2:#7c5bdc;--pl:#f1ecfc;--ok:#1f9d6b;--okl:#e3f6ee;--warn:#d9822b;--warnl:#fdf0e1;--bad:#d64545;--badl:#fde8e8;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14121f;--card:#1e1b2e;--ink:#f1eefc;--mute:#a49fc0;--line:#312d47;--pl:#2a2447;--okl:#143428;--warnl:#3a2a15;--badl:#3b1c1c}}
+:root[data-theme="dark"]{--bg:#14121f;--card:#1e1b2e;--ink:#f1eefc;--mute:#a49fc0;--line:#312d47;--pl:#2a2447;--okl:#143428;--warnl:#3a2a15;--badl:#3b1c1c}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;line-height:1.6;font-size:15px}
+button{font:inherit;cursor:pointer;border:0;background:none;color:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid var(--p);outline-offset:2px}
+.app{display:grid;grid-template-columns:240px 1fr;min-height:100vh}
+aside{background:var(--card);border-inline-end:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:14px;position:sticky;top:0;height:100vh}
+.brand{display:flex;gap:10px;align-items:center}
+.logo{width:38px;height:38px;border-radius:10px;background:var(--p);color:#fff;display:grid;place-items:center;font-weight:700}
+.brand b{display:block}.brand small,.mute{color:var(--mute);font-size:13px}
+.yr{background:var(--pl);border-radius:10px;padding:10px 12px;font-size:13px}
+nav{display:flex;flex-direction:column;gap:4px}
+nav button{text-align:start;padding:10px 12px;border-radius:10px;color:var(--mute)}
+nav button.on{background:var(--pl);color:var(--p);font-weight:600}
+.tip{background:var(--pl);border-radius:12px;padding:12px;font-size:13px}
+.tip b{display:block;margin-bottom:4px;color:var(--p)}
+.me{margin-top:auto;display:flex;gap:10px;align-items:center;padding-top:12px;border-top:1px solid var(--line)}
+.av{width:34px;height:34px;border-radius:50%;background:var(--p2);color:#fff;display:grid;place-items:center}
+main{padding:0 28px 40px;min-width:0}
+.top{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:16px 0;flex-wrap:wrap}
+.search{flex:1;min-width:200px;max-width:340px;border:1px solid var(--line);background:var(--card);border-radius:10px;padding:9px 12px;color:var(--ink);font:inherit}
+.seg{display:flex;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px;gap:2px}
+.seg button{padding:6px 12px;border-radius:8px;font-size:13px;color:var(--mute)}
+.seg button.on{background:var(--p);color:#fff}
+h1{font-size:26px;margin:8px 0 2px}h2{font-size:18px;margin:0 0 4px}h3{font-size:15px;margin:0}
+.view{display:none}.view.on{display:block}
+.hero{background:var(--p);color:#fff;border-radius:18px;padding:24px 28px;display:flex;gap:24px;align-items:center;margin:16px 0;flex-wrap:wrap}
+.ring{width:96px;height:96px;border-radius:50%;border:5px solid rgba(255,255,255,.3);border-top-color:#fff;display:grid;place-items:center;text-align:center;font-size:12px;line-height:1.2}
+.ring b{font-size:28px;display:block}
+.hero h2{font-size:24px}.hero p{margin:4px 0 14px;opacity:.9}
+.btn{background:var(--p);color:#fff;padding:9px 18px;border-radius:10px;font-weight:600}
+.hero .btn{background:#fff;color:var(--p)}
+.btn.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line)}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,1fr)}.g2{grid-template-columns:1.4fr 1fr}.g5{grid-template-columns:repeat(5,1fr)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;min-width:0}
+.stat b{font-size:24px;display:block}
+.up{color:var(--ok);font-size:12px}
+.pill{display:inline-block;font-size:12px;padding:2px 10px;border-radius:99px;font-weight:600}
+.hi{background:var(--badl);color:var(--bad)}.md{background:var(--warnl);color:var(--warn)}.lo{background:var(--pl);color:var(--p)}.dn{background:var(--okl);color:var(--ok)}
+.item{border:1px solid var(--line);border-radius:12px;padding:14px;margin-top:10px}
+.item .row{display:flex;gap:10px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px;font-size:13px}
+.meta span{display:block;color:var(--mute);font-size:12px}
+.bar{height:6px;background:var(--line);border-radius:9px;overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--p);border-radius:9px}
+.chart{display:flex;gap:10px;align-items:flex-end;height:120px;margin-top:12px}
+.chart div{flex:1;text-align:center;font-size:12px;color:var(--mute)}
+.chart i{display:block;background:var(--pl);border-radius:6px 6px 0 0;margin-bottom:4px}
+.chart i.t{background:var(--p)}
+.days button{display:flex;justify-content:space-between;width:100%;padding:8px 10px;border-radius:8px;font-size:14px}
+.days button.on{background:var(--pl);color:var(--p);font-weight:600}
+.steps{list-style:none;padding:0;margin:10px 0 0;display:flex;flex-direction:column;gap:6px}
+.steps li{padding:9px 10px;border-radius:10px;display:flex;gap:10px;align-items:center;font-size:14px}
+.steps li.on{background:var(--pl);color:var(--p);font-weight:600}
+.dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;font-size:12px;flex:none}
+.on .dot{border-color:var(--p);background:var(--p);color:#fff}
+.formula{background:var(--pl);border-radius:12px;padding:20px;text-align:center;font-size:26px;font-weight:700;color:var(--p);direction:ltr;letter-spacing:1px}
+.alert{background:var(--warnl);color:var(--warn);border-radius:10px;padding:10px 14px;font-size:13px;margin:10px 0}
+.q{margin-top:16px}.q p{font-weight:600;margin:0 0 8px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opts button{border:1px solid var(--line);border-radius:10px;padding:10px 12px;text-align:start;background:var(--card)}
+.opts button:hover{border-color:var(--p)}
+.opts .right{background:var(--okl);border-color:var(--ok);color:var(--ok)}
+.opts .wrong{background:var(--badl);border-color:var(--bad);color:var(--bad)}
+.fb{margin-top:8px;font-size:13px;padding:8px 12px;border-radius:10px;display:none}
+.fb.ok{display:block;background:var(--okl);color:var(--ok)}.fb.no{display:block;background:var(--badl);color:var(--bad)}
+.line{width:100%;height:auto;margin-top:8px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{color:var(--mute);font-weight:500;font-size:12px;text-align:start;padding:8px}
+td{padding:12px 8px;border-top:1px solid var(--line)}
+.scroll{overflow-x:auto}
+.ic{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;vertical-align:-3px}.ib{width:34px;height:34px;border-radius:10px;background:var(--pl);color:var(--p);display:grid;place-items:center}nav button{display:flex;gap:10px;align-items:center}.logo .ic{width:22px;height:22px}.tip .ic{vertical-align:-4px}
+.g12{grid-template-columns:1fr 2fr}.g21{grid-template-columns:2.2fr 1fr}.g21b{grid-template-columns:2fr 1fr}.g11{grid-template-columns:1fr 1fr}
+@media (max-width:1100px){.g12,.g21,.g21b{grid-template-columns:1fr}}
+@media (max-width:980px){.g4,.g5{grid-template-columns:repeat(2,1fr)}.g2,.g11{grid-template-columns:1fr}.opts{grid-template-columns:1fr}}
+@media (max-width:760px){
+.app{grid-template-columns:1fr}
+aside{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:12px}
+aside .yr,aside .tip,aside .me{display:none}
+nav{flex-direction:row;overflow-x:auto;width:100%}nav button{white-space:nowrap}
+main{padding:0 16px 32px}.meta{grid-template-columns:repeat(2,1fr)}h1{font-size:22px}.top{padding:12px 0}.search{max-width:none}.seg{width:100%;overflow-x:auto}.seg button{white-space:nowrap;flex:1}.hero{padding:18px}.hero h2{font-size:20px}.card{padding:14px}.formula{font-size:20px}aside .brand{flex:1}nav button{padding:10px 14px}
+}
+img,svg{max-width:100%}main{max-width:1320px;width:100%;margin-inline:auto}
+@media (max-width:480px){.g4,.g5{grid-template-columns:1fr}.stat b{font-size:20px}.item .row .btn,.hero .btn{width:100%}.ring{width:80px;height:80px}.ring b{font-size:22px}.hero{gap:14px}.opts button{padding:12px}}
+@media (min-width:1600px){body{font-size:16px}.app{grid-template-columns:270px 1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+ <div class="brand"><div class="logo">م</div><div><b>المراجعة الذكية</b><small>كل مراجعة تصنع فرقًا</small></div></div>
+ <div class="yr"><small class="mute">عامك الدراسي</small><div>٢٠٢٦ / ٢٠٢٧ · علمي علوم</div></div>
+ <nav id="nav"></nav>
+ <div class="tip"><b>خطوة صغيرة كل يوم</b>أنت تراجع لليوم الرابع على التوالي. استمر!<div class="mute" style="margin-top:4px">٤ أيام من الالتزام</div></div>
+ <div class="me"><div class="av">أ</div><div><b>أحمد محمد</b><div class="mute">الصف الثالث الثانوي</div></div></div>
+</aside>
+<main>
+ <div class="top">
+  <input class="search" placeholder="ابحث عن درس أو مادة..." aria-label="بحث">
+  <div class="seg" id="grades"></div>
+ </div>
+
+ <!-- Dashboard -->
+ <section class="view on" id="v-home">
+  <h1>أهلًا أحمد، جاهز لخطوة جديدة؟</h1>
+  <p class="mute">ركّز على ما يحتاج مراجعة فعلًا، واترك الباقي للخطة. الأربعاء، ١٤ أكتوبر ٢٠٢٦</p>
+  <div class="hero">
+   <div class="ring"><div><b>١</b>من ٤ مراجعات</div></div>
+   <div style="flex:1;min-width:240px"><span class="mute" style="color:#e4dcff">اقتراح ذكي لك اليوم</span>
+    <h2>وقتك يستحق مراجعة أذكى.</h2>
+    <p>ابدأ بقانون أوم: آخر مراجعة منذ ٦ أيام و٣ إجابات خاطئة. ٢٥ دقيقة مركّزة تساعدك على فهم أخطائك وتثبيت الأساس.</p>
+    <button class="btn" data-go="lesson">ابدأ مراجعة قانون أوم</button>
+   </div>
+  </div>
+  <div class="grid g4">
+   <div class="card stat"><span class="mute">مستوى الإتقان العام</span><b>٧٨٪</b><span class="up">↑ ٥ نقاط عن الأسبوع الماضي</span></div>
+   <div class="card stat"><span class="mute">مراجعات مكتملة هذا الأسبوع</span><b>٧ مراجعات</b><span class="up">٤ أيام متتالية من الالتزام</span></div>
+   <div class="card stat"><span class="mute">دروس تحتاجك اليوم</span><b>٣ دروس</b><span class="mute">٦٠ دقيقة متبقية في خطتك</span></div>
+   <div class="card stat"><span class="mute">وقت المذاكرة هذا الأسبوع</span><b>٩٥ دقيقة</b><span class="mute">من هدفك الأسبوعي ١٨٠ دقيقة</span></div>
+  </div>
+  <div class="grid g2" style="margin-top:14px">
+   <div class="card"><h2>ابدأ بما يحتاجك أكثر</h2><p class="mute" style="margin:0">مرتبة حسب أخطائك وإتقانك ووقت آخر مراجعة</p><div id="prio"></div>
+    <button class="btn ghost" data-go="plan" style="margin-top:12px;width:100%">عرض خطة المراجعة كاملة</button></div>
+   <div class="grid" style="align-content:start">
+    <div class="card"><h2>تقدّمك هذا الأسبوع</h2><div class="chart" id="wk"></div><p class="mute" style="margin:8px 0 0">هدف المذاكرة: ٩٥ من ١٨٠ دقيقة</p></div>
+    <div class="card"><h3>أنجزت اليوم</h3><p style="margin:6px 0 0">الحمض النووي DNA <span class="pill dn">١٠٠٪ بدون أخطاء</span></p></div>
+   </div>
+  </div>
+  <div class="card" style="margin-top:14px"><h2>موادك في نظرة</h2><div class="grid g5" id="subs" style="margin-top:10px"></div></div>
+ </section>
+
+ <!-- Plan -->
+ <section class="view" id="v-plan">
+  <h1>خطة المراجعة الذكية</h1>
+  <p class="mute">تتغير الخطة مع نتائج اختباراتك: مراجعات أقل عشوائية وتركيز أكبر على الدروس التي تحتاجها.</p>
+  <div class="alert" style="background:var(--pl);color:var(--p)">خطتك مبنية على أخطائك، مش على عدد الدروس. الدروس ذات الإتقان الأقل تظهر أولًا.</div>
+  <div class="grid g2 g12">
+   <div class="grid" style="align-content:start">
+    <div class="card"><h2>إنجاز اليوم</h2><b style="font-size:22px">١ من ٤ مراجعات</b><div class="bar"><i style="width:25%"></i></div></div>
+    <div class="card"><h2>أسبوعك في نظرة</h2><div class="days" id="days"></div></div>
+    <div class="card"><h3>لماذا هذا الترتيب؟</h3>
+     <p style="margin:8px 0 0"><b>الأخطاء أولًا</b><br><span class="mute">الخطأ المتكرر يكشف فكرة تحتاج شرحًا أو تدريبًا جديدًا.</span></p>
+     <p style="margin:8px 0 0"><b>الإتقان يحدد الجهد</b><br><span class="mute">الدرس الأضعف يأخذ وقتًا أكثر، وليس كل الدروس بالتساوي.</span></p>
+     <p style="margin:8px 0 0"><b>التوقيت يثبّت الذاكرة</b><br><span class="mute">نعود للدرس المتقن بعد فترة مناسبة بدل تكراره كل يوم.</span></p></div>
+   </div>
+   <div class="card"><h2>مراجعات الأربعاء</h2><p class="mute" style="margin:0">٤ مراجعات · ابدأ بالأولوية الأولى ثم أكمل بالترتيب المقترح</p><div id="plist"></div></div>
+  </div>
+ </section>
+
+ <!-- Lesson -->
+ <section class="view" id="v-lesson">
+  <button class="btn ghost" data-go="plan">العودة إلى الخطة</button>
+  <p class="mute" style="margin:12px 0 0">الفيزياء · التيار الكهربي · قانون أوم</p>
+  <h1>قانون أوم</h1>
+  <div class="alert">هدفك: فهم العلاقة بين الجهد والتيار والمقاومة. ٢٥ دقيقة مقترحة.</div>
+  <div class="grid g2 g21">
+   <div class="grid" style="align-content:start">
+    <div class="card"><h2>الفكرة الأساسية ببساطة</h2>
+     <div class="formula" style="margin:12px 0">V = I × R</div>
+     <p>فرق الجهد = شدة التيار × المقاومة. الجهد بالفولت (V)، والتيار بالأمبير (A)، والمقاومة بالأوم (Ω).</p>
+     <div class="item"><b>مثال محلول</b><p style="margin:6px 0 0">مقاومة مقدارها ٦ أوم يطبَّق عليها ١٢ فولت، فشدة التيار: <b dir="ltr">I = V ÷ R = 12 ÷ 6 = 2 A</b></p></div>
+     <div class="alert">انتبه للخطأ المتكرر: عند ثبات الجهد، زيادة المقاومة تعني انخفاض شدة التيار.</div></div>
+    <div class="card"><h2>اختبر فهمك</h2><p class="mute" style="margin:0">٣ أسئلة قصيرة · طبّق الفكرة قبل أن تنتقل</p><div id="quiz"></div>
+     <button class="btn" id="savequiz" style="margin-top:16px;opacity:.5" disabled>سجّل النتيجة</button></div>
+   </div>
+   <div class="grid" style="align-content:start">
+    <div class="card"><h2>خطوات المراجعة</h2><ul class="steps" id="steps"></ul></div>
+    <div class="card"><h3>أداؤك قبل المراجعة</h3><p style="margin:8px 0 0">مستوى الإتقان <b>٤٢٪</b></p><div class="bar"><i style="width:42%"></i></div>
+     <p class="mute" style="margin:8px 0 0">آخر اختبار ٣ من ٦ · آخر مراجعة منذ ٦ أيام</p></div>
+   </div>
+  </div>
+ </section>
+
+ <!-- Performance -->
+ <section class="view" id="v-perf">
+  <h1>تتبّع أداءك، وافهم تقدّمك</h1>
+  <p class="mute">كل خطوة لها معنى: اعرف أين تتحسن وأين تحتاج تركيزًا أكبر.</p>
+  <div class="grid g4" style="margin-top:14px">
+   <div class="card stat"><span class="mute">مستوى الإتقان العام</span><b>٧٨٪</b><span class="up">↑ ٥ نقاط</span></div>
+   <div class="card stat"><span class="mute">مراجعات هذا الأسبوع</span><b>٧ مراجعات</b></div>
+   <div class="card stat"><span class="mute">وقت المذاكرة هذا الأسبوع</span><b>٩٥ دقيقة</b></div>
+   <div class="card stat"><span class="mute">أخطاء في آخر اختبارات ٣ دروس</span><b>٧ أخطاء</b></div>
+  </div>
+  <div class="grid g2 g21b" style="margin-top:14px">
+   <div class="card"><h2>إتقانك يتحسن خطوة بخطوة</h2><p class="mute" style="margin:0">مستوى الإتقان العام خلال آخر ٦ أسابيع · ↑ ٢٦ نقطة</p>
+    <svg class="line" viewBox="0 0 600 180" role="img" aria-label="رسم خطي لتحسن الإتقان">
+     <g stroke="var(--line)"><line x1="40" x2="590" y1="30" y2="30"/><line x1="40" x2="590" y1="90" y2="90"/><line x1="40" x2="590" y1="150" y2="150"/></g>
+     <path d="M550 140 L440 120 L330 104 L220 80 L110 62 L50 50 L50 150 L550 150Z" fill="var(--pl)"/>
+     <path d="M550 140 L440 120 L330 104 L220 80 L110 62 L50 50" fill="none" stroke="var(--p)" stroke-width="3"/>
+     <g fill="var(--p)"><circle cx="550" cy="140" r="4"/><circle cx="440" cy="120" r="4"/><circle cx="330" cy="104" r="4"/><circle cx="220" cy="80" r="4"/><circle cx="110" cy="62" r="4"/><circle cx="50" cy="50" r="4"/></g>
+     <g fill="var(--mute)" font-size="11" text-anchor="middle"><text x="550" y="170">٩ سبتمبر</text><text x="440" y="170">١٦ سبتمبر</text><text x="330" y="170">٢٣ سبتمبر</text><text x="220" y="170">٣٠ سبتمبر</text><text x="110" y="170">٧ أكتوبر</text><text x="50" y="170">١٤ أكتوبر</text></g>
+     <g fill="var(--mute)" font-size="11"><text x="590" y="34">٩٠٪</text><text x="590" y="94">٧٨٪</text><text x="590" y="154">٧٠٪</text></g>
+    </svg></div>
+   <div class="card"><h2>الإتقان حسب المادة</h2><div id="bysub"></div><p class="mute" style="margin:10px 0 0">الفيزياء تحتاج تركيزك الأكبر هذا الأسبوع.</p></div>
+  </div>
+  <div class="card scroll" style="margin-top:14px"><h2>الصورة أوضح على مستوى الدرس</h2>
+   <table><thead><tr><th>الدرس والمادة</th><th>مستوى الإتقان</th><th>آخر اختبار</th><th>الأخطاء</th><th>آخر مراجعة</th><th>الحالة</th></tr></thead><tbody id="tbl"></tbody></table></div>
+  <div class="grid g2 g11" style="margin-top:14px">
+   <div class="card"><h2>خطوتك الأكثر تأثيرًا الآن</h2><p>ابدأ مراجعة قانون أوم: ٢٥ دقيقة قد ترفع إتقانك وتقلل أخطاءك المتكررة.</p><button class="btn" data-go="lesson">ابدأ مراجعة قانون أوم</button></div>
+   <div class="card"><h2>تقدّم يستحق الاستمرار</h2><p>إتقان DNA وصل إلى ٩٢٪. استمر على المراجعة المتباعدة.</p><span class="pill dn">استمر على المراجعة المتباعدة</span></div>
+  </div>
+ </section>
+</main>
+</div>
+<script>
+const $=s=>document.querySelector(s);
+const IC={home:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',plan:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18m-11 5 2 2 4-4"/>',lesson:'<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',perf:'<path d="m22 7-8.5 8.5-5-5L2 17M16 7h6v6"/>',zap:'<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',check:'<circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>',clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',bulb:'<path d="M15 14c.2-1 .7-1.7 1.5-2.5A6 6 0 1 0 7.5 11.5c.8.8 1.3 1.5 1.5 2.5M9 18h6M10 22h4"/>',target:'<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>'};
+const ic=n=>'<svg class="ic" viewBox="0 0 24 24" aria-hidden="true">'+IC[n]+'</svg>';
+const L={home:'لوحة الطالب',plan:'خطة المراجعة الذكية',lesson:'مراجعة الدروس',perf:'تتبع الأداء'};
+const lessons=[
+ {n:'قانون أوم',s:'الفيزياء',p:'ارتفاعة',c:'hi',pl:'أولوية مرتفعة',m:42,t:'٣ من ٦ · ٥٠٪',e:3,r:'منذ ٦ أيام',min:25,why:'الخطأ تكرر في اتجاه التيار؛ راجع القاعدة ثم حلّ مثالًا.'},
+ {n:'قانونا كيرشوف',s:'الفيزياء',pl:'يحتاج مراجعة',c:'md',m:67,t:'٢ من ٦ · ٦٧٪',e:2,r:'منذ ٤ أيام',min:20,why:'حان وقت مراجعة قصيرة تثبّت الفكرة.'},
+ {n:'الاتزان الكيميائي',s:'الكيمياء',pl:'لتثبيت الإتقان',c:'lo',m:75,t:'٢ من ٨ · ٧٥٪',e:2,r:'منذ ٥ أيام',min:15,why:'حان موعد المراجعة المتباعدة؛ ثبّت تأثير التركيز على الاتزان.'}];
+const subs=[['الفيزياء',64],['الكيمياء',78],['الأحياء',86],['اللغة العربية',82],['اللغة الإنجليزية',88]];
+$('#nav').innerHTML=Object.entries(L).map(([k,v])=>`<button data-go="${k}" data-nav="${k}">${ic(k)}<span>${v}</span></button>`).join('');
+$('#grades').innerHTML=['الصف الأول الثانوي','الصف الثاني الثانوي','الصف الثالث الثانوي'].map((g,i)=>`<button class="${i==2?'on':''}">${g}</button>`).join('');
+$('#grades').onclick=e=>{if(e.target.tagName=='BUTTON'){[...$('#grades').children].forEach(b=>b.classList.remove('on'));e.target.classList.add('on')}};
+$('#prio').innerHTML=lessons.map((l,i)=>`<div class="item"><div class="row"><div><h3>${ic('zap')} ${l.n}</h3><span class="mute">${l.s} · ${l.why}</span></div><span class="pill ${l.c}">${l.pl}</span></div><div class="mute" style="margin-top:6px;font-size:13px">الإتقان ${l.m}٪ · ${l.r}</div></div>`.replace(/ارتفاعة/,'')).join('');
+$('#wk').innerHTML=[['س',30],['ح',70],['ن',90],['ث',60],['ر',80],['خ',20],['ج',50]].map((d,i)=>`<div><i class="${i==3?'t':''}" style="height:${d[1]}px"></i>${d[0]}</div>`).join('');
+$('#subs').innerHTML=subs.map(s=>`<div><div style="display:flex;justify-content:space-between;font-size:14px"><span>${s[0]}</span><b>${s[1]}٪</b></div><div class="bar"><i style="width:${s[1]}%"></i></div></div>`).join('');
+$('#bysub').innerHTML=subs.map(s=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:14px"><span>${s[0]}</span><b>${s[1]}٪</b></div><div class="bar"><i style="width:${s[1]}%;background:${s[1]<70?'var(--warn)':'var(--ok)'}"></i></div></div>`).join('');
+const dd=[['الاثنين','مكتمل'],['الثلاثاء','مكتمل'],['الأربعاء','اليوم'],['الخميس','٣ مراجعات'],['الجمعة','مراجعتان'],['السبت','مراجعتان'],['الأحد','مراجعة واحدة']];
+$('#days').innerHTML=dd.map((d,i)=>`<button class="${i==2?'on':''}"><span>${d[0]}</span><span class="mute">${d[1]}</span></button>`).join('');
+$('#plist').innerHTML=lessons.map((l,i)=>`<div class="item"><div class="row"><div><h3>${i+1}. ${l.n}</h3><span class="mute">${l.s}</span></div>${i==0?'<button class="btn" data-go="lesson">ابدأ الآن</button>':'<button class="btn ghost" data-go="lesson">مراجعة الدرس</button>'}</div>
+<div class="meta"><div><span>مستوى الإتقان</span>${l.m}٪</div><div><span>آخر اختبار</span>${l.t}</div><div><span>الأخطاء</span>${l.e}</div><div><span>آخر مراجعة</span>${l.r}</div></div>
+<p class="mute" style="margin:10px 0 6px;font-size:13px">${l.why}</p><span class="pill ${l.c}">${l.pl}</span> <span class="mute" style="font-size:13px">الوقت المقترح: ${l.min} دقيقة</span></div>`).join('')+
+`<div class="item"><div class="row"><div><h3>الحمض النووي DNA</h3><span class="mute">الأحياء</span></div><span class="pill dn">مكتمل</span></div><div class="meta"><div><span>مستوى الإتقان</span>٩٢٪</div><div><span>آخر اختبار</span>٦ من ٦ · ١٠٠٪</div><div><span>الأخطاء</span>٠</div><div><span>المراجعة التالية</span>٢١ أكتوبر</div></div></div>`;
+$('#tbl').innerHTML=[['قانون أوم','الفيزياء',42,'٣ من ٦','٣','٨ أكتوبر','أولوية مرتفعة','hi'],['قانونا كيرشوف','الفيزياء',67,'٢ من ٦','٢','١٠ أكتوبر','يحتاج مراجعة','md'],['الاتزان الكيميائي','الكيمياء',75,'٢ من ٨','٢','٩ أكتوبر','لتثبيت الإتقان','lo'],['الحمض النووي DNA','الأحياء',92,'٠ من ٦','٠','١٤ أكتوبر','متقن','dn']].map(r=>`<tr><td><b>${r[0]}</b><div class="mute" style="font-size:12px">${r[1]}</div></td><td style="min-width:110px">${r[2]}٪<div class="bar"><i style="width:${r[2]}%"></i></div></td><td>${r[3]}</td><td>${r[4]}</td><td>${r[5]}</td><td><span class="pill ${r[7]}">${r[6]}</span></td></tr>`).join('');
+$('#steps').innerHTML=[['افهم الفكرة الأساسية','٥ دقائق'],['راجع المثال المحلول','٥ دقائق'],['اختبر فهمك','١٠ دقائق'],['راجع النتيجة والأخطاء','٥ دقائق']].map((s,i)=>`<li class="${i==2?'on':''}"><span class="dot">${i+1}</span><span>${s[0]}<br><small class="mute">${s[1]}</small></span></li>`).join('');
+const qs=[['وُصّلت مقاومة ٤ أوم بفرق جهد ١٢ فولت. ما شدة التيار المار فيها؟',['٠٫٣ أمبير','٣ أمبير','٨ أمبير','٤٨ أمبير'],1],['ما وحدة قياس المقاومة الكهربية؟',['الأوم','الواط','الأمبير','الفولت'],0],['عند ثبات المقاومة ودرجة الحرارة، ماذا يحدث لشدة التيار إذا تضاعف فرق الجهد؟',['تصبح صفرًا','تتضاعف','تقل للنصف','لا تتغير'],1]];
+let done=0;
+$('#quiz').innerHTML=qs.map((q,i)=>`<div class="q"><p>${i+1}. ${q[0]}</p><div class="opts">${q[1].map((o,j)=>`<button data-q="${i}" data-o="${j}">${o}</button>`).join('')}</div><div class="fb" id="fb${i}"></div></div>`).join('');
+$('#quiz').onclick=e=>{const b=e.target.closest('button[data-q]');if(!b||b.parentNode.dataset.d)return;const i=+b.dataset.q,ok=+b.dataset.o===qs[i][2];b.parentNode.dataset.d=1;
+ b.classList.add(ok?'right':'wrong');if(!ok)b.parentNode.children[qs[i][2]].classList.add('right');
+ const f=$('#fb'+i);f.className='fb '+(ok?'ok':'no');f.textContent=ok?'إجابة صحيحة، أحسنت!':'إجابة غير صحيحة. الصحيحة: '+qs[i][1][qs[i][2]];
+ if(++done==3){const s=$('#savequiz');s.disabled=false;s.style.opacity=1}};
+$('#savequiz').onclick=function(){this.textContent='تم تسجيل النتيجة ✓'};
+function go(k){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id=='v-'+k));
+ document.querySelectorAll('[data-nav]').forEach(b=>b.classList.toggle('on',b.dataset.nav==(k=='lesson'?'lesson':k)));scrollTo(0,0)}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go)});
+$('.logo').innerHTML=ic('lesson');$('.tip b').insertAdjacentHTML('afterbegin',ic('bulb')+' ');
+[['#v-home',['target','check','zap','clock']],['#v-perf',['target','check','clock','zap']]].forEach(([s,a])=>document.querySelectorAll(s+' .stat').forEach((c,i)=>{c.style.position='relative';c.insertAdjacentHTML('afterbegin','<span class="ib" style="position:absolute;inset-inline-end:14px;top:14px">'+ic(a[i])+'</span>')}));
+go('home');
+</script>
+</body>
+</html>
